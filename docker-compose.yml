@@ -1,0 +1,30 @@
+# ============================================================
+# docker-compose.yml - Mayar Billing + Mikrotik System
+# ============================================================
+
+version: "3.9"
+
+services:
+  billing-app:
+    build: .
+    container_name: mayar-billing
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      # Mayar
+      - MAYAR_API_KEY=${MAYAR_API_KEY}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      # Mikrotik
+      - MIKROTIK_HOST=${MIKROTIK_HOST}
+      - MIKROTIK_PORT=${MIKROTIK_PORT}
+      - MIKROTIK_USER=${MIKROTIK_USER}
+      - MIKROTIK_PASS=${MIKROTIK_PASS}
+      # Server
+      - PORT=3000
+    networks:
+      - billing-network
+
+networks:
+  billing-network:
+    driver: bridge
